@@ -165,6 +165,10 @@ const Hero = () => {
               alt="STR Robin" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=800&h=1000";
+              }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-bg-dark via-transparent to-transparent"></div>
           </div>
