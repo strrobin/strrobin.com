@@ -161,7 +161,7 @@ const Hero = () => {
         <div className="relative">
           <div className="relative z-10 rounded-3xl overflow-hidden aspect-[4/5] max-w-md mx-auto">
             <img 
-              src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/690787487_122124228447219171_1820750967568232916_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=100&ccb=1-7&_nc_sid=13d280&_nc_ohc=c3cO9P6FVjkQ7kNvwFpUeCs&_nc_oc=AdrJc6gXIyN9EKHtJWQJhqOKclvndB7y1c1EWCVq1s1TQSAzWAyK1vUmfxpQWWcrM1U&_nc_zt=23&_nc_ht=scontent.fdac155-1.fna&_nc_gid=Cwrr9kADyLNzyyG62sxtXQ&_nc_ss=7b2a8&oh=00_Af61aSRC-bJjysPki3odNSmAPVAYMAnNZHgxmwxh2cdojw&oe=6A03D732" 
+              src="https://github.com/strrobin/strrobin.com/blob/main/strrobin(2).jpg?raw=true" 
               alt="STR Robin" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
