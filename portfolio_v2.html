@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reeni Portfolio - Elementor Optimized</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js for Interactivity (Lightweight & Elementor Friendly) -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF005C',
+                        'bg-dark': '#0A0A0A',
+                        'card-dark': '#121212',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        
+        body {
+            background-color: #0A0A0A;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .glass-card {
+            background: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 0, 92, 0.5);
+        }
+
+        .pink-gradient-bg {
+            background: linear-gradient(135deg, #FF005C 0%, #80002E 100%);
+        }
+
+        @keyframes spin-slow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 12s linear infinite;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #121212;
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #FF005C;
+            border-radius: 999px;
+            width: 0;
+            transition: width 1.5s ease-out;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0A0A0A; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 0, 92, 0.3); border-radius: 10px; }
+
+        .marquee-container {
+            display: flex;
+            overflow: hidden;
+            user-select: none;
+            gap: 24px;
+            padding: 20px 0;
+        }
+
+        .marquee-content {
+            display: flex;
+            gap: 24px;
+            animation: scroll 40s linear infinite;
+        }
+
+        .marquee-content.reverse {
+            animation: scroll-reverse 45s linear infinite;
+        }
+
+        @keyframes scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        @keyframes scroll-reverse {
+            from { transform: translateX(-50%); }
+            to { transform: translateX(0); }
+        }
+
+        .marquee-container:hover .marquee-content {
+            animation-play-state: paused;
+        }
+    </style>
+</head>
+<body x-data="{ scrolled: false, mobileMenu: false, sidebar: false }" @scroll.window="scrolled = (window.pageYOffset > 50)">
+
+    <!-- Navbar -->
+    <nav :class="scrolled ? 'bg-[#0A0A0A]/90 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 bg-[#FF005C] rounded-full flex items-center justify-center font-bold text-xl">S</div>
+                <span class="text-2xl font-bold tracking-tighter text-white">STR ROBIN</span>
+            </div>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">Home</a>
+                <a href="#about" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">About</a>
+                <a href="#skills" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">Skill</a>
+                <a href="#services" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">Services</a>
+                <a href="#testimonials" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">Testimonials</a>
+                <a href="#contact" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">Contact</a>
+            </div>
+
+            <div class="hidden md:flex items-center gap-4">
+                <div class="flex gap-3 text-gray-400">
+                    <a href="https://www.facebook.com/share/1GbvuQmFce/" target="_blank" rel="noreferrer"><i data-lucide="facebook" class="w-5 h-5 cursor-pointer hover:text-[#FF005C]"></i></a>
+                    <a href="https://www.instagram.com/strahmed7?igsh=aW9wMmdpNThydHQx" target="_blank" rel="noreferrer"><i data-lucide="instagram" class="w-5 h-5 cursor-pointer hover:text-[#FF005C]"></i></a>
+                    <a href="https://x.com/strrobin3y?t=jyBX6XGkg0A-f__Mv3NLrg&s=09" target="_blank" rel="noreferrer"><i data-lucide="twitter" class="w-5 h-5 cursor-pointer hover:text-[#FF005C]"></i></a>
+                    <a href="https://wa.me/8801309880436" target="_blank" rel="noreferrer"><i data-lucide="message-circle" class="w-5 h-5 cursor-pointer hover:text-[#FF005C]"></i></a>
+                    <a href="https://www.tiktok.com/@strrobin1?lang=en" target="_blank" rel="noreferrer"><i data-lucide="play" class="w-5 h-5 cursor-pointer hover:text-[#FF005C]"></i></a>
+                </div>
+                <button @click="sidebar = true" class="bg-[#FF005C] p-2 rounded-full hover:scale-110 transition-transform active:scale-95 text-white">
+                    <i data-lucide="menu" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <button class="md:hidden" @click="mobileMenu = !mobileMenu">
+                <i x-show="!mobileMenu" data-lucide="menu" class="w-8 h-8"></i>
+                <i x-show="mobileMenu" data-lucide="x" class="w-8 h-8" x-cloak></i>
+            </button>
+        </div>
+
+        <!-- Off-canvas Sidebar -->
+    <template x-teleport="body">
+        <div>
+            <!-- Backdrop -->
+            <div 
+                x-show="sidebar" 
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-300"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                @click="sidebar = false" 
+                class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100]"
+            ></div>
+            
+            <!-- Sidebar Content -->
+            <div 
+                x-show="sidebar"
+                x-transition:enter="transition ease-out duration-500 transform"
+                x-transition:enter-start="translate-x-full"
+                x-transition:enter-end="translate-x-0"
+                x-transition:leave="transition ease-in duration-400 transform"
+                x-transition:leave-start="translate-x-0"
+                x-transition:leave-end="translate-x-full"
+                class="fixed top-0 right-0 h-full w-full max-w-[420px] bg-[#0A0A0A] z-[101] shadow-2xl overflow-y-auto"
+            >
+                <div class="p-10">
+                    <div class="flex justify-between items-center mb-12">
+                        <div class="flex items-center gap-2">
+                            <div class="w-10 h-10 bg-[#FF005C] rounded-full flex items-center justify-center font-bold text-xl text-white">S</div>
+                            <span class="text-2xl font-bold tracking-tighter text-white font-display">STR ROBIN</span>
+                        </div>
+                        <button @click="sidebar = false" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:bg-[#FF005C] transition-all text-gray-400 hover:text-white">
+                            <i data-lucide="x" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+
+                    <div class="mb-10 rounded-3xl overflow-hidden aspect-[4/3] relative group shadow-2xl">
+                        <img src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/690787487_122124228447219171_1820750967568232916_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=100&ccb=1-7&_nc_sid=13d280&_nc_ohc=c3cO9P6FVjkQ7kNvwFpUeCs&_nc_oc=AdrJc6gXIyN9EKHtJWQJhqOKclvndB7y1c1EWCVq1s1TQSAzWAyK1vUmfxpQWWcrM1U&_nc_zt=23&_nc_ht=scontent.fdac155-1.fna&_nc_gid=Cwrr9kADyLNzyyG62sxtXQ&_nc_ss=7b2a8&oh=00_Af61aSRC-bJjysPki3odNSmAPVAYMAnNZHgxmwxh2cdojw&oe=6A03D732" alt="STR Robin" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80"></div>
+                    </div>
+
+                    <div class="space-y-6 mb-12">
+                        <h3 class="text-2xl font-bold text-white tracking-tight leading-tight">
+                            Premium Freelance <span class="text-[#FF005C] italic">Developer</span> delivering exceptional digital solutions.
+                        </h3>
+                        <p class="text-gray-400 text-base leading-relaxed font-light">
+                            I am a WordPress Developer with 3+ years of experience in building modern, responsive, and high-performing websites. I specialize in custom WordPress development, theme customization, and delivering user-friendly digital experiences that help businesses grow online.
+                        </p>
+                    </div>
+
+                    <div class="space-y-8 mb-16">
+                        <div class="flex items-center gap-5 group">
+                            <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center shrink-0 border border-white/5 group-hover:border-[#FF005C]/30 transition-colors">
+                                <i data-lucide="phone" class="w-6 h-6 text-[#FF005C]"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">CALL NOW</div>
+                                <div class="text-white font-bold text-lg tracking-wide">01309880436</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-5 group">
+                            <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center shrink-0 border border-white/5 group-hover:border-[#FF005C]/30 transition-colors">
+                                <i data-lucide="mail" class="w-6 h-6 text-[#FF005C]"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">MAIL US</div>
+                                <div class="text-white font-bold text-lg tracking-wide">strrobin363@gmail.com</div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-5 group">
+                            <div class="w-14 h-14 bg-white/5 rounded-2xl flex items-center justify-center shrink-0 border border-white/5 group-hover:border-[#FF005C]/30 transition-colors">
+                                <i data-lucide="map-pin" class="w-6 h-6 text-[#FF005C]"></i>
+                            </div>
+                            <div>
+                                <div class="text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-1">MY ADDRESS</div>
+                                <div class="text-white font-bold text-lg tracking-wide">Dhaka, Bangladesh</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-10 border-t border-white/5">
+                        <div class="text-xs text-white uppercase tracking-[0.3em] font-bold mb-6">FIND WITH ME</div>
+                        <div class="flex gap-4">
+                            <a href="https://www.facebook.com/share/1GbvuQmFce/" target="_blank" rel="noreferrer" class="w-12 h-12 bg-white/5 hover:bg-[#FF005C] rounded-xl flex items-center justify-center transition-all text-gray-400 hover:text-white shadow-lg hover:-translate-y-1">
+                                <i data-lucide="facebook" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://www.instagram.com/strahmed7?igsh=aW9wMmdpNThydHQx" target="_blank" rel="noreferrer" class="w-12 h-12 bg-white/5 hover:bg-[#FF005C] rounded-xl flex items-center justify-center transition-all text-gray-400 hover:text-white shadow-lg hover:-translate-y-1">
+                                <i data-lucide="instagram" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://x.com/strrobin3y?t=jyBX6XGkg0A-f__Mv3NLrg&s=09" target="_blank" rel="noreferrer" class="w-12 h-12 bg-white/5 hover:bg-[#FF005C] rounded-xl flex items-center justify-center transition-all text-gray-400 hover:text-white shadow-lg hover:-translate-y-1">
+                                <i data-lucide="twitter" class="w-5 h-5"></i>
+                            </a>
+                            <a href="https://wa.me/8801309880436" target="_blank" rel="noreferrer" class="w-12 h-12 bg-white/5 hover:bg-[#FF005C] rounded-xl flex items-center justify-center transition-all text-gray-400 hover:text-white shadow-lg hover:-translate-y-1">
+                                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Mobile Menu -->
+        <div x-show="mobileMenu" x-transition x-cloak class="absolute top-full left-0 w-full bg-[#0A0A0A] border-b border-white/10 p-6 md:hidden">
+            <div class="flex flex-col gap-4">
+                <a href="#" @click="mobileMenu = false" class="text-lg font-medium">Home</a>
+                <a href="#about" @click="mobileMenu = false" class="text-lg font-medium">About</a>
+                <a href="#skills" @click="mobileMenu = false" class="text-lg font-medium">Skill</a>
+                <a href="#services" @click="mobileMenu = false" class="text-lg font-medium">Services</a>
+                <a href="#testimonials" @click="mobileMenu = false" class="text-lg font-medium">Testimonials</a>
+                <a href="#contact" @click="mobileMenu = false" class="text-lg font-medium">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
+        <!-- Premium Background Elements -->
+        <div class="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse"></div>
+        <div class="absolute -bottom-20 -left-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]"></div>
+
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10">
+            <div class="animate-in fade-in slide-in-from-left duration-1000">
+                <span class="text-primary font-medium tracking-widest uppercase text-sm mb-4 block">I AM</span>
+                <h1 class="text-6xl md:text-8xl font-bold leading-[1.1] mb-8 tracking-tighter">
+                    STR ROBIN, <br>
+                    <span class="text-primary italic relative inline-block">
+                        Wordpress
+                        <svg class="absolute -bottom-2 left-0 w-full h-3 text-primary/30" viewBox="0 0 100 10" preserveAspectRatio="none">
+                            <path d="M0 5 Q 25 0, 50 5 T 100 5" fill="none" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </span> <br>
+                    Developer
+                </h1>
+                <p class="text-gray-400 text-xl mb-10 max-w-xl leading-relaxed font-light">
+                    I am a WordPress Developer with 3+ years of experience in building modern, responsive, and high-performing websites. I specialize in custom WordPress development, theme customization, and delivering user-friendly digital experiences that help businesses grow online.
+                </p>
+                <div class="flex flex-wrap gap-6 items-center">
+                    <a href="#contact" class="bg-primary hover:bg-primary/80 text-white px-10 py-5 rounded-full font-bold flex items-center gap-3 transition-all group shadow-[0_10px_30px_rgba(255,0,92,0.3)] hover:-translate-y-1">
+                        Start a Project <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#portfolio" class="border border-white/10 hover:bg-white/5 text-white px-10 py-5 rounded-full font-bold transition-all hover:-translate-y-1">
+                        View Portfolio
+                    </a>
+                </div>
+                
+                <div class="mt-12 pt-12 border-t border-white/5 flex gap-10">
+                    <div>
+                        <div class="text-3xl font-bold mb-1">40+</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-widest font-medium">Projects Built</div>
+                    </div>
+                    <div>
+                        <div class="text-3xl font-bold mb-1">99%</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-widest font-medium">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative">
+                <div class="relative z-10 rounded-3xl overflow-hidden aspect-[4/5] max-w-md mx-auto shadow-2xl shadow-primary/20">
+                    <img src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/690787487_122124228447219171_1820750967568232916_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=100&ccb=1-7&_nc_sid=13d280&_nc_ohc=c3cO9P6FVjkQ7kNvwFpUeCs&_nc_oc=AdrJc6gXIyN9EKHtJWQJhqOKclvndB7y1c1EWCVq1s1TQSAzWAyK1vUmfxpQWWcrM1U&_nc_zt=23&_nc_ht=scontent.fdac155-1.fna&_nc_gid=Cwrr9kADyLNzyyG62sxtXQ&_nc_ss=7b2a8&oh=00_Af61aSRC-bJjysPki3odNSmAPVAYMAnNZHgxmwxh2cdojw&oe=6A03D732" alt="STR Robin" class="w-full h-full object-cover text-white font-bold text-center flex items-center justify-center">
+                    <div class="absolute inset-0 bg-gradient-to-t from-bg-dark via-transparent to-transparent"></div>
+                </div>
+                
+                <!-- Decorative Elements -->
+                <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+                <div class="absolute -top-10 -right-10 w-60 h-60 bg-primary/10 rounded-full blur-3xl"></div>
+                
+                <div class="absolute bottom-10 -right-4 bg-bg-dark/80 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center gap-4 z-20 shadow-xl">
+                    <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                        <i data-lucide="star" class="w-6 h-6 text-white fill-current"></i>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold">3+</div>
+                        <div class="text-xs text-gray-400 uppercase tracking-widest">Years Experience</div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <!-- About Section -->
+    <section id="about" class="py-16 md:py-32 bg-[#0A0A0A] relative overflow-hidden">
+        <!-- Background accents -->
+        <div class="absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] bg-[#FF005C]/5 rounded-full blur-[120px] -translate-x-1/2"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-16 items-center">
+                
+                <!-- Left Side: Visual Stats Grid -->
+                <div class="lg:col-span-5 grid grid-cols-2 gap-4 md:gap-6 animate-in fade-in slide-in-from-bottom duration-1000">
+                    <div class="glass-card p-8 flex flex-col justify-between h-[240px] hover:border-[#FF005C]/30 transition-all border border-white/5 group">
+                        <div class="w-12 h-12 bg-[#FF005C]/10 rounded-xl flex items-center justify-center mb-4 transition-colors group-hover:bg-[#FF005C]/20">
+                            <i data-lucide="check-circle-2" class="w-6 h-6 text-[#FF005C]"></i>
+                        </div>
+                        <div>
+                            <div class="text-5xl font-bold text-white mb-2 tracking-tighter">40+</div>
+                            <div class="text-gray-500 uppercase tracking-widest text-[10px] font-bold">Projects <br> Completed</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 flex flex-col justify-between h-[240px] mt-12 hover:border-[#FF005C]/30 transition-all border border-white/5 bg-gradient-to-br from-white/[0.03] to-transparent group">
+                        <div class="w-12 h-12 bg-[#FF005C]/10 rounded-xl flex items-center justify-center mb-4 transition-colors group-hover:bg-[#FF005C]/20">
+                            <i data-lucide="users" class="w-6 h-6 text-[#FF005C]"></i>
+                        </div>
+                        <div>
+                            <div class="text-5xl font-bold text-white mb-2 tracking-tighter">100%</div>
+                            <div class="text-gray-500 uppercase tracking-widest text-[10px] font-bold">Client <br> Satisfaction</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 flex flex-col justify-between h-[240px] -mt-12 hover:border-[#FF005C]/30 transition-all border border-white/5 bg-gradient-to-tr from-white/[0.03] to-transparent group">
+                        <div class="w-12 h-12 bg-[#FF005C]/10 rounded-xl flex items-center justify-center mb-4 transition-colors group-hover:bg-[#FF005C]/20">
+                            <i data-lucide="zap" class="w-6 h-6 text-[#FF005C]"></i>
+                        </div>
+                        <div>
+                            <div class="text-5xl font-bold text-white mb-2 tracking-tighter">95+</div>
+                            <div class="text-gray-500 uppercase tracking-widest text-[10px] font-bold">PageSpeed <br> Score</div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card p-8 flex flex-col justify-between h-[240px] hover:border-[#FF005C]/30 transition-all border border-white/5 group">
+                        <div class="w-12 h-12 bg-[#FF005C]/10 rounded-xl flex items-center justify-center mb-4 transition-colors group-hover:bg-[#FF005C]/20">
+                            <i data-lucide="shield-check" class="w-6 h-6 text-[#FF005C]"></i>
+                        </div>
+                        <div>
+                            <div class="text-5xl font-bold text-white mb-2 tracking-tighter">24/7</div>
+                            <div class="text-gray-500 uppercase tracking-widest text-[10px] font-bold">Security <br> Monitoring</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side: Content -->
+                <div class="lg:col-span-7 animate-in fade-in slide-in-from-right duration-1000 delay-200">
+                    <div>
+                        <span class="text-[#FF005C] font-bold tracking-[0.3em] uppercase text-xs mb-6 block">ABOUT ME</span>
+                        <h2 class="text-5xl md:text-7xl font-bold mb-8 leading-[1.1] tracking-tighter text-white">
+                            Transforming Your Vision into <br>
+                            <span class="text-[#FF005C] italic">Digital Reality.</span>
+                        </h2>
+                        <p class="text-gray-400 text-lg mb-10 leading-relaxed font-light max-w-2xl">
+                            With a deep focus on the WordPress ecosystem, I bridge the gap between complex technical requirements and intuitive user experiences. My approach combines clean, scalable code with high-conversion design strategies.
+                        </p>
+                        
+                        <div class="grid sm:grid-cols-2 gap-10 mb-12">
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-2 h-2 rounded-full bg-[#FF005C] animate-pulse"></div>
+                                    <h4 class="font-bold text-white uppercase tracking-wider text-sm">Bespoke Architecture</h4>
+                                </div>
+                                <p class="text-gray-500 text-sm leading-relaxed">
+                                    Custom-built themes and plugins designed for longevity, performance, and complete control over your brand identity.
+                                </p>
+                            </div>
+                            <div class="space-y-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-2 h-2 rounded-full bg-[#FF005C] animate-pulse"></div>
+                                    <h4 class="font-bold text-white uppercase tracking-wider text-sm">Optimization Engine</h4>
+                                </div>
+                                <p class="text-gray-500 text-sm leading-relaxed">
+                                    Strategic performance audits and speed optimization to ensure your site loads faster than the competition.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-wrap gap-8 items-center">
+                            <a href="#services" class="bg-[#FF005C] hover:bg-[#FF005C]/80 text-white px-10 py-5 rounded-full font-bold flex items-center gap-3 transition-all group shadow-[0_10px_30px_rgba(255,0,92,0.3)]">
+                                Explore My Services <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                            <div class="flex -space-x-3">
+                                <div class="w-12 h-12 rounded-full border-2 border-[#0A0A0A] overflow-hidden"><img src="https://i.pravatar.cc/100?u=1" alt="Client" class="w-full h-full object-cover"></div>
+                                <div class="w-12 h-12 rounded-full border-2 border-[#0A0A0A] overflow-hidden"><img src="https://i.pravatar.cc/100?u=2" alt="Client" class="w-full h-full object-cover"></div>
+                                <div class="w-12 h-12 rounded-full border-2 border-[#0A0A0A] overflow-hidden"><img src="https://i.pravatar.cc/100?u=3" alt="Client" class="w-full h-full object-cover"></div>
+                                <div class="w-12 h-12 rounded-full border-2 border-[#0A0A0A] overflow-hidden"><img src="https://i.pravatar.cc/100?u=4" alt="Client" class="w-full h-full object-cover"></div>
+                                <div class="w-12 h-12 rounded-full border-2 border-[#0A0A0A] bg-white/5 flex items-center justify-center text-[10px] font-bold text-white">
+                                    +40
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience & Education -->
+    <section class="py-12 md:py-20 bg-[#0A0A0A]">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12">
+            <div>
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 bg-[#FF005C]/10 rounded-full flex items-center justify-center">
+                        <i data-lucide="monitor" class="w-6 h-6 text-[#FF005C]"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">My Experience</h2>
+                </div>
+                <div class="space-y-6">
+                    <div class="glass-card p-6 border-l-4 border-l-[#FF005C]">
+                        <span class="text-xs text-[#FF005C] font-bold uppercase tracking-widest mb-2 block">2023 - 2026</span>
+                        <h3 class="text-xl font-bold mb-1">SENIOR DEVELOPER</h3>
+                        <p class="text-gray-500 text-sm">CodeGenius (USA)</p>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-l-[#FF005C]">
+                        <span class="text-xs text-[#FF005C] font-bold uppercase tracking-widest mb-2 block">2023 - 2026</span>
+                        <h3 class="text-xl font-bold mb-1">WEB DEVELOPER</h3>
+                        <p class="text-gray-500 text-sm">Modami Tomoli</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex items-center gap-4 mb-10">
+                    <div class="w-12 h-12 bg-[#FF005C]/10 rounded-full flex items-center justify-center">
+                        <i data-lucide="graduation-cap" class="w-6 h-6 text-[#FF005C]"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold">My Education</h2>
+                </div>
+                <div class="space-y-6">
+                    <div class="glass-card p-6 border-l-4 border-l-[#FF005C]">
+                        <span class="text-xs text-[#FF005C] font-bold uppercase tracking-widest mb-2 block">2020 - 2026</span>
+                        <h3 class="text-xl font-bold mb-1">PROGRAMMING COURSE</h3>
+                        <p class="text-gray-500 text-sm">Harvard University</p>
+                    </div>
+                    <div class="glass-card p-6 border-l-4 border-l-[#FF005C]">
+                        <span class="text-xs text-[#FF005C] font-bold uppercase tracking-widest mb-2 block">2020 - 2026</span>
+                        <h3 class="text-xl font-bold mb-1">GRAPHIC DESIGN COURSE</h3>
+                        <p class="text-gray-500 text-sm">University of Denmark</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" class="py-12 md:py-20 bg-[#0A0A0A] relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/4 -translate-y-1/2 w-[500px] h-[500px] bg-[#FF005C]/10 rounded-full blur-[120px] mix-blend-screen animate-pulse"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16">
+                <!-- Design Skill -->
+                <div>
+                    <div class="flex items-center gap-6 mb-12">
+                        <h2 class="text-3xl font-bold tracking-tight text-white uppercase italic font-display">Design Skill</h2>
+                        <div class="h-[2px] flex-grow bg-gradient-to-r from-[#FF005C] to-transparent opacity-20"></div>
+                    </div>
+                    <div class="grid gap-6">
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="database" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">WORDPRESS DESIGN</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">95%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="wand-2" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">ELEMENTOR</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">90%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="palette" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">UI/UX DESIGN</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">75%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="figma" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">FIGMA</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">65%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Development Skill -->
+                <div>
+                    <div class="flex items-center gap-6 mb-12">
+                        <h2 class="text-3xl font-bold tracking-tight text-white uppercase italic font-display">Development Skill</h2>
+                        <div class="h-[2px] flex-grow bg-gradient-to-r from-[#FF005C] to-transparent opacity-20"></div>
+                    </div>
+                    <div class="grid gap-6">
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">E-COMMERCE DEV</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">85%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="layers" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">THEME CUSTOMIZATION</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">90%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="clock" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">SPEED OPTIMIZATION</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">80%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+
+                        <div class="glass-card p-6 border border-white/5 hover:border-[#FF005C]/30 transition-all group relative overflow-hidden cursor-default hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="text-[#FF005C] group-hover:scale-110 group-hover:rotate-12 transition-transform duration-300">
+                                        <i data-lucide="code" class="w-5 h-5"></i>
+                                    </div>
+                                    <span class="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 group-hover:text-white transition-colors">JAVASCRIPT</span>
+                                </div>
+                                <span class="text-sm font-bold text-[#FF005C]">70%</span>
+                            </div>
+                            <div class="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                <div class="h-full bg-gradient-to-r from-[#FF005C] via-[#FF005C]/80 to-[#FF005C]/50 rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-12 md:py-20 bg-[#0A0A0A]">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+            <h2 class="text-5xl md:text-6xl font-bold mb-4">My Services</h2>
+            <div class="flex justify-center">
+                <svg width="100" height="10" viewBox="0 0 100 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 5H100" stroke="#FF005C" stroke-width="2" stroke-dasharray="4 4"/>
+                </svg>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- WordPress Design -->
+            <div class="glass-card p-10 hover:bg-[#1a1a1a] transition-all group">
+                <div class="w-14 h-14 bg-[#FF005C]/10 rounded-full flex items-center justify-center mb-8 group-hover:bg-[#FF005C] transition-colors">
+                    <i data-lucide="palette" class="w-7 h-7 text-[#FF005C] group-hover:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">WordPress Design</h3>
+                <p class="text-gray-400 leading-relaxed text-sm">
+                    Custom WordPress themes designed to reflect your brand identity and engage your audience with stunning visuals and intuitive user experience.
+                </p>
+            </div>
+
+            <!-- E-commerce Development -->
+            <div class="glass-card p-10 hover:bg-[#1a1a1a] transition-all group">
+                <div class="w-14 h-14 bg-[#FF005C]/10 rounded-full flex items-center justify-center mb-8 group-hover:bg-[#FF005C] transition-colors">
+                    <i data-lucide="shopping-cart" class="w-7 h-7 text-[#FF005C] group-hover:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">E-commerce Development</h3>
+                <p class="text-gray-400 leading-relaxed text-sm">
+                    Complete WooCommerce solutions with payment gateways, inventory management, and conversion-optimized checkout processes.
+                </p>
+            </div>
+
+            <!-- WordPress Theme Customization -->
+            <div class="glass-card p-10 hover:bg-[#1a1a1a] transition-all group">
+                <div class="w-14 h-14 bg-[#FF005C]/10 rounded-full flex items-center justify-center mb-8 group-hover:bg-[#FF005C] transition-colors">
+                    <i data-lucide="wand-2" class="w-7 h-7 text-[#FF005C] group-hover:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">WordPress Theme Customization</h3>
+                <p class="text-gray-400 leading-relaxed text-sm">
+                    Customize any WordPress theme to match your exact needs — from layout and typography to advanced styling and functionality.
+                </p>
+            </div>
+
+            <!-- Landing Page Design -->
+            <div class="glass-card p-10 hover:bg-[#1a1a1a] transition-all group">
+                <div class="w-14 h-14 bg-[#FF005C]/10 rounded-full flex items-center justify-center mb-8 group-hover:bg-[#FF005C] transition-colors">
+                    <i data-lucide="plane" class="w-7 h-7 text-[#FF005C] group-hover:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Landing Page Design</h3>
+                <p class="text-gray-400 leading-relaxed text-sm">
+                    High-converting landing pages built with Elementor or custom design — crafted to boost leads, conversions, and engagement.
+                </p>
+            </div>
+
+            <!-- Website Speed Optimization -->
+            <div class="glass-card p-10 hover:bg-[#1a1a1a] transition-all group">
+                <div class="w-14 h-14 bg-[#FF005C]/10 rounded-full flex items-center justify-center mb-8 group-hover:bg-[#FF005C] transition-colors">
+                    <i data-lucide="clock" class="w-7 h-7 text-[#FF005C] group-hover:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Website Speed Optimization</h3>
+                <p class="text-gray-400 leading-relaxed text-sm">
+                    Boost your website's loading speed and performance using caching, image optimization, and code cleanup for a smooth user experience.....
+                </p>
+            </div>
+
+            <!-- Responsive Design -->
+            <div class="glass-card p-10 hover:bg-[#1a1a1a] transition-all group">
+                <div class="w-14 h-14 bg-[#FF005C]/10 rounded-full flex items-center justify-center mb-8 group-hover:bg-[#FF005C] transition-colors">
+                    <i data-lucide="smartphone" class="w-7 h-7 text-[#FF005C] group-hover:text-white"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Responsive Design</h3>
+                <p class="text-gray-400 leading-relaxed text-sm">
+                    Mobile-first approach ensuring your website looks perfect and functions flawlessly across all devices and screen sizes.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-16 md:py-24 bg-[#0A0A0A] overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6 text-center mb-16">
+            <div class="flex justify-center mb-4">
+                <span class="text-[#FF005C] font-medium tracking-widest uppercase text-xs border border-[#FF005C]/20 px-3 py-1 rounded-full bg-[#FF005C]/5">
+                    Testimonials
+                </span>
+            </div>
+            <h2 class="text-5xl md:text-6xl font-bold mb-6 tracking-tight">
+                Awesome <span class="text-[#FF005C] italic">Clients</span>
+            </h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                My awesome clients foundation in WordPress development and a keen eye for design, I specialize in creating fast, secure and responsive websites.
+            </p>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <!-- Row 1 -->
+            <div class="marquee-container">
+                <div class="marquee-content">
+                    <!-- Client 1 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "Robin transformed our sluggish WooCommerce site into a high-performance machine. Our page load time dropped by 60%, and we saw an immediate boost in conversions."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop" alt="Sarah" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Sarah Jenkins</h4>
+                                <p class="text-xs text-gray-500">E-commerce Store Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Repeat for first row loop -->
+                    <!-- Client 2 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "The custom landing page Robin built for our latest campaign was perfect. It looks stunning on mobile and works flawlessly. He really understands funnel building."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop" alt="Michael" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Michael Chen</h4>
+                                <p class="text-xs text-gray-500">Marketing Director</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Client 3 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "We had a complex bug in our custom theme that three other developers couldn't fix. Robin identified and resolved it in hours. Technical depth is truly impressive."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop" alt="Elena" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Elena Rodriguez</h4>
+                                <p class="text-xs text-gray-500">SaaS Founder</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate for loop -->
+                    <!-- Clone 1 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "Robin transformed our sluggish WooCommerce site into a high-performance machine. Our page load time dropped by 60%, and we saw an immediate boost in conversions."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=150&h=150&auto=format&fit=crop" alt="Sarah" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Sarah Jenkins</h4>
+                                <p class="text-xs text-gray-500">E-commerce Store Owner</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Clone 2 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "The custom landing page Robin built for our latest campaign was perfect. It looks stunning on mobile and works flawlessly. He really understands funnel building."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&h=150&auto=format&fit=crop" alt="Michael" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Michael Chen</h4>
+                                <p class="text-xs text-gray-500">Marketing Director</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Clone 3 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "We had a complex bug in our custom theme that three other developers couldn't fix. Robin identified and resolved it in hours. Technical depth is truly impressive."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=150&h=150&auto=format&fit=crop" alt="Elena" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Elena Rodriguez</h4>
+                                <p class="text-xs text-gray-500">SaaS Founder</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 2 (Reverse) -->
+            <div class="marquee-container">
+                <div class="marquee-content reverse">
+                    <!-- Client 4 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "My new website is fast, secure, and incredibly easy for me to manage. Robin's theme customization skills turned my vision into a professional reality."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&h=150&auto=format&fit=crop" alt="David" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">David Thompson</h4>
+                                <p class="text-xs text-gray-500">Real Estate Agent</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Client 5 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "I love my new blog! It's so fast and the design is beautiful. Robin was a joy to work with and explained everything so clearly. SEO rankings have gone up!"
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&h=150&auto=format&fit=crop" alt="Emma" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Emma Wilson</h4>
+                                <p class="text-xs text-gray-500">Blogger</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Client 6 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "We outsource our WordPress development to Robin regularly. He's reliable, precise, and always delivers on time. A true professional."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop" alt="James" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">James Cooper</h4>
+                                <p class="text-xs text-gray-500">Agency CEO</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Duplicate for loop -->
+                    <!-- Clone 4 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "My new website is fast, secure, and incredibly easy for me to manage. Robin's theme customization skills turned my vision into a professional reality."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&h=150&auto=format&fit=crop" alt="David" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">David Thompson</h4>
+                                <p class="text-xs text-gray-500">Real Estate Agent</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Clone 5 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "I love my new blog! It's so fast and the design is beautiful. Robin was a joy to work with and explained everything so clearly. SEO rankings have gone up!"
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&h=150&auto=format&fit=crop" alt="Emma" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">Emma Wilson</h4>
+                                <p class="text-xs text-gray-500">Blogger</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Clone 6 -->
+                    <div class="glass-card w-[450px] shrink-0 p-8 relative overflow-hidden group">
+                        <i data-lucide="quote" class="absolute top-4 right-6 w-16 h-16 text-[#FF005C]/10"></i>
+                        <div class="flex gap-1 mb-4 text-[#FF005C]">
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                        </div>
+                        <p class="text-gray-400 text-sm italic mb-6 leading-relaxed">
+                            "We outsource our WordPress development to Robin regularly. He's reliable, precise, and always delivers on time. A true professional."
+                        </p>
+                        <div class="flex items-center gap-4">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&h=150&auto=format&fit=crop" alt="James" class="w-12 h-12 rounded-full object-cover grayscale group-hover:grayscale-0 transition-all">
+                            <div>
+                                <h4 class="font-bold text-white group-hover:text-[#FF005C] transition-colors">James Cooper</h4>
+                                <p class="text-xs text-gray-500">Agency CEO</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-12 md:py-20 bg-[#0A0A0A]">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="bg-[#121212] border border-white/10 rounded-[40px] overflow-hidden grid md:grid-cols-2">
+                <div class="p-12 md:p-16">
+                    <h2 class="text-5xl font-bold mb-12">Get Ready To <br> Create Great</h2>
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-6">
+                            <div class="w-12 h-12 bg-[#FF005C]/10 rounded-full flex items-center justify-center shrink-0">
+                                <i data-lucide="phone" class="w-5 h-5 text-[#FF005C]"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Phone:</div>
+                                <div class="font-bold">01309880436</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="w-12 h-12 bg-[#FF005C]/10 rounded-full flex items-center justify-center shrink-0">
+                                <i data-lucide="mail" class="w-5 h-5 text-[#FF005C]"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Email:</div>
+                                <div class="font-bold">strrobin363@gmail.com</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-6">
+                            <div class="w-12 h-12 bg-[#FF005C]/10 rounded-full flex items-center justify-center shrink-0">
+                                <i data-lucide="map-pin" class="w-5 h-5 text-[#FF005C]"></i>
+                            </div>
+                            <div>
+                                <div class="text-xs text-gray-500 uppercase tracking-widest mb-1">Location:</div>
+                                <div class="font-bold">Dhaka, Bangladesh</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-12 md:p-16 bg-[#0A0A0A]/40 border-l border-white/10">
+                    <h3 class="text-2xl font-bold mb-8 uppercase tracking-widest">GET IN TOUCH</h3>
+                    <form class="space-y-6">
+                        <div class="grid grid-cols-2 gap-6">
+                            <input type="text" placeholder="Your Name" class="bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors">
+                            <input type="text" placeholder="Phone Number" class="bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors">
+                        </div>
+                        <textarea placeholder="Your Message" rows="4" class="w-full bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors resize-none"></textarea>
+                        <button type="button" class="w-full bg-[#FF005C] hover:bg-[#FF005C]/80 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all group">
+                            Appointment Now <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="pt-16 pb-8 md:pt-20 md:pb-10 bg-[#0A0A0A] border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex items-center justify-center gap-2 mb-8">
+                <div class="w-10 h-10 bg-[#FF005C] rounded-full flex items-center justify-center font-bold text-xl">S</div>
+                <span class="text-2xl font-bold tracking-tighter">STR ROBIN</span>
+            </div>
+            <p class="text-gray-500 text-sm mb-8 max-w-md mx-auto">
+                Professional WordPress Developer specializing in custom theme design, e-commerce, and speed optimization.
+            </p>
+            <div class="flex justify-center gap-6 text-gray-400 mb-12">
+                <a href="https://www.facebook.com/share/1GbvuQmFce/" target="_blank" rel="noreferrer"><i data-lucide="facebook" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
+                <a href="https://www.instagram.com/strahmed7?igsh=aW9wMmdpNThydHQx" target="_blank" rel="noreferrer"><i data-lucide="instagram" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
+                <a href="https://x.com/strrobin3y?t=jyBX6XGkg0A-f__Mv3NLrg&s=09" target="_blank" rel="noreferrer"><i data-lucide="twitter" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
+                <a href="https://wa.me/8801309880436" target="_blank" rel="noreferrer"><i data-lucide="message-circle" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
+                <a href="https://www.tiktok.com/@strrobin1?lang=en" target="_blank" rel="noreferrer"><i data-lucide="play" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
+            </div>
+            <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-gray-500 mb-8">
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-[#FF005C]">Home</a>
+                    <a href="#about" class="hover:text-[#FF005C]">About</a>
+                    <a href="#skills" class="hover:text-[#FF005C]">Skill</a>
+                    <a href="#services" class="hover:text-[#FF005C]">Services</a>
+                    <a href="#testimonials" class="hover:text-[#FF005C]">Testimonials</a>
+                    <a href="#contact" class="hover:text-[#FF005C]">Contact</a>
+                </div>
+            </div>
+            <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-gray-500">
+                <p>Copyright © 2026 STR ROBIN All Rights Reserved.</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-[#FF005C]">Terms & Condition</a>
+                    <a href="#" class="hover:text-[#FF005C]">Privacy Policy</a>
+                    <a href="#" class="hover:text-[#FF005C]">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky WhatsApp Button -->
+    <a 
+        href="https://wa.me/8801309880436" 
+        target="_blank" 
+        rel="noreferrer"
+        style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; background-color: #25D366; color: white; padding: 15px; border-radius: 50%; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: transform 0.3s ease; display: flex; align-items: center; justify-content: center;"
+        onmouseover="this.style.transform='scale(1.1)'"
+        onmouseout="this.style.transform='scale(1)'"
+        aria-label="Chat on WhatsApp"
+    >
+        <i data-lucide="message-circle" style="width: 30px; height: 30px; fill: currentColor;"></i>
+    </a>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+        
+        // Simple scroll reveal for progress bars
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.querySelectorAll('.progress-fill').forEach(bar => {
+                        const width = bar.style.width;
+                        bar.style.width = '0';
+                        setTimeout(() => bar.style.width = width, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        observer.observe(document.querySelector('section:nth-of-type(4)'));
+    </script>
+</body>
+</html>
