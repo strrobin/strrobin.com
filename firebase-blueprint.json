@@ -32,13 +32,35 @@
           "description": "Timestamp of submission"
         }
       },
-      "required": ["name", "email", "message", "createdAt"]
+      "required": ["name", "email", "createdAt"]
+    },
+    "Newsletter": {
+      "title": "Newsletter",
+      "description": "Newsletter subscription",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "Subscriber email"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of subscription"
+        }
+      },
+      "required": ["email", "createdAt"]
     }
   },
   "firestore": {
     "/submissions/{submissionId}": {
       "schema": "Submission",
       "description": "Collection of contact form submissions"
+    },
+    "/newsletters/{newsletterId}": {
+      "schema": "Newsletter",
+      "description": "Collection of newsletter subscribers"
     }
   }
 }

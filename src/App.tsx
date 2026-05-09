@@ -148,9 +148,9 @@ const Hero = () => {
             Crafting high-performance digital experiences with WordPress. Specializing in bespoke themes, high-converting funnels, and optimized e-commerce solutions.
           </p>
           <div className="flex flex-wrap gap-6 items-center">
-            <button className="bg-primary hover:bg-primary/80 text-white px-10 py-5 rounded-full font-bold flex items-center gap-3 transition-all group shadow-[0_10px_30px_rgba(255,0,92,0.3)] hover:-translate-y-1">
+            <a href="#contact" className="bg-primary hover:bg-primary/80 text-white px-10 py-5 rounded-full font-bold flex items-center gap-3 transition-all group shadow-[0_10px_30px_rgba(255,0,92,0.3)] hover:-translate-y-1">
               Start a Project <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </button>
+            </a>
             <button className="border border-white/10 hover:bg-white/5 text-white px-10 py-5 rounded-full font-bold transition-all hover:-translate-y-1">
               View Portfolio
             </button>
@@ -1041,6 +1041,52 @@ const Blog = () => {
 };
 
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+
+  const handleSubscribe = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    try {
+      setStatus('loading');
+      
+      // 1. Save to Firestore
+      const path = 'newsletters';
+      try {
+        await addDoc(collection(db, path), {
+          email: email,
+          createdAt: serverTimestamp(),
+        });
+      } catch (error) {
+        handleFirestoreError(error, OperationType.WRITE, path);
+      }
+
+      // 2. Send email notification via FormSubmit
+      await fetch("https://formsubmit.co/ajax/strrobin363@gmail.com", {
+        method: "POST",
+        body: JSON.stringify({
+          email: email,
+          type: "Newsletter Subscription",
+          _template: 'table',
+          _subject: `New Newsletter Subscriber: ${email}`
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+
+      setStatus('success');
+      setEmail('');
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error("Newsletter error:", error);
+      setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
+    }
+  };
+
   return (
     <footer className="pt-20 pb-10 bg-bg-dark border-t border-border-dark">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-20">
@@ -1110,20 +1156,33 @@ const Footer = () => {
           <p className="text-gray-500 text-sm mb-6 leading-relaxed">
             Subscribe to my newsletter and get weekly updates and learn about AI & Internet things.
           </p>
-          <div className="relative">
+          <form onSubmit={handleSubscribe} className="relative">
             <input 
+              required
               type="email" 
               placeholder="Your e-mail" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full bg-card-dark border border-border-dark rounded-full px-6 py-4 outline-none focus:border-primary transition-colors pr-16"
             />
-            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition-all">
-              <ArrowRight size={20} />
+            <button 
+              type="submit"
+              disabled={status === 'loading'}
+              className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-primary rounded-full flex items-center justify-center hover:bg-primary/80 transition-all disabled:opacity-50"
+            >
+              {status === 'loading' ? (
+                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <ArrowRight size={20} />
+              )}
             </button>
-          </div>
+          </form>
+          {status === 'success' && <p className="text-green-500 text-xs mt-2">Subscribed successfully!</p>}
+          {status === 'error' && <p className="text-red-500 text-xs mt-2">Error subscribing. Try again.</p>}
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 pt-10 border-t border-border-dark flex flex-col md:row justify-between items-center gap-6">
+      <div className="max-w-7xl mx-auto px-6 pt-10 border-t border-border-dark flex flex-col md:flex-row justify-between items-center gap-6">
         <p className="text-xs text-gray-500">Copyright © 2026 STR ROBIN All Rights Reserved.</p>
         <div className="flex gap-8 text-xs text-gray-500">
           <a href="#" className="hover:text-primary transition-colors">Terms & Condition</a>

@@ -146,6 +146,11 @@
             animation-play-state: paused;
         }
     </style>
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
 <body x-data="{ scrolled: false, mobileMenu: false, sidebar: false }" @scroll.window="scrolled = (window.pageYOffset > 50)">
 
@@ -1095,7 +1100,7 @@
                     </div>
                 </div>
 
-                <div class="p-12 md:p-16 bg-[#0A0A0A]/40 border-l border-white/10" x-data="{ submitted: false, submitting: false, async handleSubmit(e) { this.submitting = true; this.submitted = false; const formData = new FormData(e.target); const data = Object.fromEntries(formData.entries()); try { /* 1. Save to Firestore */ await db.collection('submissions').add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); /* 2. API call */ await fetch('https://formsubmit.co/ajax/strrobin363@gmail.com', { method: 'POST', body: JSON.stringify({...data, _template: 'table'}), headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }); this.submitted = true; e.target.reset(); } catch (err) { console.error(err); alert('Submission error. Please try again later.'); } finally { this.submitting = false; } } }">
+                <div class="p-12 md:p-16 bg-[#0A0A0A]/40 border-l border-white/10" x-data="{ submitted: false, submitting: false, async handleSubmit(e) { this.submitting = true; this.submitted = false; const formData = new FormData(e.target); const data = Object.fromEntries(formData.entries()); try { /* Filter fields for Firestore */ const submission = { name: data.name, email: data.email, createdAt: firebase.firestore.FieldValue.serverTimestamp() }; if (data.phone) submission.phone = data.phone; if (data.subject) submission.subject = data.subject; if (data.message) submission.message = data.message; /* 1. Save to Firestore */ await db.collection('submissions').add(submission); /* 2. API call */ await fetch('https://formsubmit.co/ajax/strrobin363@gmail.com', { method: 'POST', body: JSON.stringify({...data, _template: 'table', _subject: 'New Message from Portfolio V2'}), headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }); this.submitted = true; e.target.reset(); } catch (err) { console.error(err); alert('Submission error. Please try again later.'); } finally { this.submitting = false; } } }">
                     <h3 class="text-2xl font-bold mb-8 uppercase tracking-widest">GET IN TOUCH</h3>
                     <form class="space-y-6" @submit.prevent="handleSubmit($event)">
                         <div class="grid grid-cols-2 gap-6">
@@ -1136,6 +1141,33 @@
                 <a href="https://x.com/strrobin3y?t=jyBX6XGkg0A-f__Mv3NLrg&s=09" target="_blank" rel="noreferrer"><i data-lucide="twitter" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
                 <a href="https://wa.me/8801309880436" target="_blank" rel="noreferrer"><i data-lucide="message-circle" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
                 <a href="https://www.tiktok.com/@strrobin1?lang=en" target="_blank" rel="noreferrer"><i data-lucide="play" class="w-6 h-6 cursor-pointer hover:text-[#FF005C]"></i></a>
+            </div>
+
+            <!-- Newsletter -->
+            <div class="max-w-md mx-auto mb-16" x-data="{ email: '', status: 'idle', async handleSubscribe() { if(!this.email) return; this.status = 'loading'; try { await db.collection('newsletters').add({ email: this.email, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); await fetch('https://formsubmit.co/ajax/strrobin363@gmail.com', { method: 'POST', body: JSON.stringify({ email: this.email, type: 'Newsletter Subscription', _template: 'table', _subject: 'New Newsletter Subscriber: ' + this.email }), headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }); this.status = 'success'; this.email = ''; setTimeout(() => this.status = 'idle', 5000); } catch (err) { console.error(err); this.status = 'error'; setTimeout(() => this.status = 'idle', 5000); } } }">
+                <h4 class="font-bold mb-4 uppercase tracking-widest text-sm text-white">Newsletter</h4>
+                <p class="text-gray-500 text-sm mb-6 leading-relaxed">
+                    Subscribe to my newsletter and get weekly updates and learn about AI & Internet things.
+                </p>
+                <form @submit.prevent="handleSubscribe()" class="relative">
+                    <input 
+                        required
+                        type="email" 
+                        placeholder="Your e-mail" 
+                        x-model="email"
+                        class="w-full bg-[#121212] border border-white/10 rounded-full px-6 py-4 outline-none focus:border-[#FF005C] transition-colors pr-16"
+                    />
+                    <button type="submit" class="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 bg-[#FF005C] rounded-full flex items-center justify-center hover:bg-[#FF005C]/80 transition-all disabled:opacity-50" :disabled="status === 'loading'">
+                        <template x-if="status === 'loading'">
+                            <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                        </template>
+                        <template x-if="status !== 'loading'">
+                            <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                        </template>
+                    </button>
+                </form>
+                <p x-show="status === 'success'" class="text-green-500 text-xs mt-2" x-cloak>Subscribed successfully!</p>
+                <p x-show="status === 'error'" class="text-red-500 text-xs mt-2" x-cloak>Error subscribing. Try again.</p>
             </div>
             <div class="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-gray-500 mb-8">
                 <div class="flex gap-8">

@@ -21,20 +21,31 @@ service cloud.firestore {
 
     // Submission validation
     function isValidSubmission(data) {
-      return data.keys().hasAll(['name', 'email', 'message', 'createdAt']) &&
-             data.keys().size() >= 4 && data.keys().size() <= 6 &&
+      return data.keys().hasAll(['name', 'email', 'createdAt']) &&
+             data.keys().size() >= 3 && data.keys().size() <= 6 &&
              data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
              data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
-             data.message is string && data.message.size() > 0 && data.message.size() <= 1000 &&
              data.createdAt == request.time &&
+             (!('message' in data) || (data.message is string && data.message.size() <= 1000)) &&
              (!('phone' in data) || (data.phone is string && data.phone.size() <= 50)) &&
              (!('subject' in data) || (data.subject is string && data.subject.size() <= 200));
     }
 
+    // Newsletter validation
+    function isValidNewsletter(data) {
+      return data.keys().hasAll(['email', 'createdAt']) &&
+             data.keys().size() == 2 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+             data.createdAt == request.time;
+    }
+
     match /submissions/{submissionId} {
       allow create: if isValidId(submissionId) && isValidSubmission(incoming());
-      // No one can read submissions except authenticated admins (if implemented)
-      // For now, only creation is allowed for the public
+      allow read, update, delete: if false;
+    }
+
+    match /newsletters/{newsletterId} {
+      allow create: if isValidId(newsletterId) && isValidNewsletter(incoming());
       allow read, update, delete: if false;
     }
   }
