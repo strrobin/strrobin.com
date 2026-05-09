@@ -39,7 +39,14 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => {
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-bg-dark/80 backdrop-blur-md py-4 border-b border-border-dark' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <div className="flex items-center gap-2">
-          <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center font-bold text-xl">S</div>
+          <div className="w-10 h-10 rounded-full overflow-hidden border border-border-dark">
+            <img 
+              src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
+              alt="STR Robin" 
+              className="w-full h-full object-cover"
+              referrerPolicy="no-referrer"
+            />
+          </div>
           <span className="text-2xl font-display font-bold tracking-tighter">STR ROBIN</span>
         </div>
 
@@ -161,7 +168,7 @@ const Hero = () => {
         <div className="relative">
           <div className="relative z-10 rounded-3xl overflow-hidden aspect-[4/5] max-w-md mx-auto">
             <img 
-              src="https://raw.githubusercontent.com/strrobin/strrobin.com/main/strrobin(2).jpg" 
+              src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
               alt="STR Robin" 
               className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
@@ -803,6 +810,42 @@ const Tools = () => {
 };
 
 const Contact = () => {
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setIsSubmitted(false);
+    
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(Object.fromEntries(formData)),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        }
+      });
+      
+      if (response.ok) {
+        setIsSubmitted(true);
+        form.reset();
+      } else {
+        const errorData = await response.json();
+        alert("ভুল হয়েছে: " + (errorData.error || "ফর্মটি সাবমিট করা যাচ্ছে না।"));
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("নেটওয়ার্ক সমস্যা! আপনার ইন্টারনেট কানেকশন চেক করুন।");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section id="contact" className="py-12 md:py-20 bg-bg-dark">
       <div className="max-w-7xl mx-auto px-6">
@@ -844,19 +887,29 @@ const Contact = () => {
  
           <div className="p-8 md:p-12 lg:p-16 bg-bg-dark/40 border-t lg:border-t-0 lg:border-l border-border-dark">
             <h3 className="text-xl md:text-2xl font-bold mb-8 uppercase tracking-widest">GET IN TOUCH</h3>
-            <form className="space-y-4 md:space-y-6">
+            <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <input type="text" placeholder="Your Name" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
-                <input type="text" placeholder="Phone Number" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
+                <input required name="name" type="text" placeholder="Your Name" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
+                <input required name="phone" type="text" placeholder="Phone Number" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <input type="email" placeholder="Your Email" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
-                <input type="text" placeholder="Subject" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
+                <input required name="email" type="email" placeholder="Your Email" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
+                <input required name="subject" type="text" placeholder="Subject" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
               </div>
-              <textarea placeholder="Your Message" rows={4} className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"></textarea>
-              <button className="w-full bg-primary hover:bg-primary/80 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all group text-sm md:text-base">
-                Appointment Now <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              <textarea required name="message" placeholder="Your Message" rows={4} className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"></textarea>
+              <button disabled={isSubmitting} type="submit" className="w-full bg-primary hover:bg-primary/80 disabled:opacity-50 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all group text-sm md:text-base uppercase">
+                {isSubmitting ? "Sending..." : "Submit Message"} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
+              
+              {isSubmitted && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-green-500/10 border border-green-500/40 rounded-xl text-green-400 text-center font-bold shadow-lg"
+                >
+                  কন্টাক্ট ফর্ম সফলভাবে সাবমিট হয়েছে! আপনার ইমেইল চেক করে কনফার্ম করুন।
+                </motion.div>
+              )}
             </form>
           </div>
         </div>
@@ -914,11 +967,18 @@ const Footer = () => {
   return (
     <footer className="pt-20 pb-10 bg-bg-dark border-t border-border-dark">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-20">
-        <div className="col-span-1">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center font-bold text-xl">S</div>
-            <span className="text-2xl font-display font-bold tracking-tighter">STR ROBIN</span>
-          </div>
+          <div className="col-span-1">
+            <div className="flex items-center gap-2 mb-6">
+              <div className="w-10 h-10 rounded-full overflow-hidden border border-border-dark">
+                <img 
+                  src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
+                  alt="STR Robin" 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+              <span className="text-2xl font-display font-bold tracking-tighter">STR ROBIN</span>
+            </div>
           <p className="text-gray-500 text-sm mb-8 leading-relaxed">
             Professional WordPress Developer specializing in custom theme design, e-commerce, and speed optimization.
           </p>
@@ -1028,7 +1088,14 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
             <div className="p-10">
               <div className="flex justify-between items-center mb-12">
                 <div className="flex items-center gap-2">
-                  <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center font-bold text-xl text-white">S</div>
+                  <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10">
+                    <img 
+                      src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
+                      alt="STR Robin" 
+                      className="w-full h-full object-cover"
+                      referrerPolicy="no-referrer"
+                    />
+                  </div>
                   <span className="text-2xl font-display font-bold tracking-tighter text-white">STR ROBIN</span>
                 </div>
                 <button 
@@ -1041,9 +1108,10 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
 
               <div className="mb-10 rounded-3xl overflow-hidden aspect-[4/3] relative group shadow-2xl">
                 <img 
-                  src="https://scontent.fdac155-1.fna.fbcdn.net/v/t39.30808-6/690787487_122124228447219171_1820750967568232916_n.jpg?stp=dst-jpg_s720x720_tt6&_nc_cat=100&ccb=1-7&_nc_sid=13d280&_nc_ohc=c3cO9P6FVjkQ7kNvwFpUeCs&_nc_oc=AdrJc6gXIyN9EKHtJWQJhqOKclvndB7y1c1EWCVq1s1TQSAzWAyK1vUmfxpQWWcrM1U&_nc_zt=23&_nc_ht=scontent.fdac155-1.fna&_nc_gid=Cwrr9kADyLNzyyG62sxtXQ&_nc_ss=7b2a8&oh=00_Af61aSRC-bJjysPki3odNSmAPVAYMAnNZHgxmwxh2cdojw&oe=6A03D732" 
+                  src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
                   alt="STR Robin" 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80"></div>
               </div>
