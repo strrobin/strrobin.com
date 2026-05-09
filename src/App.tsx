@@ -887,24 +887,30 @@ const Contact = () => {
         handleFirestoreError(error, OperationType.WRITE, path);
       }
 
-      // 2. Also send email via Express/Resend
+      // 2. Clearer and easier Email delivery via FormSubmit
       try {
-        const response = await fetch("/api/contact", {
+        const response = await fetch("https://formsubmit.co/ajax/strrobin363@gmail.com", {
           method: "POST",
-          body: JSON.stringify(submissionData),
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-          }
+          headers: { 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+          },
+          body: JSON.stringify({
+            name: submissionData.name,
+            email: submissionData.email,
+            phone: submissionData.phone || "N/A",
+            subject: submissionData.subject || "Contact Form",
+            message: submissionData.message,
+            _subject: `Portfolio Message from ${submissionData.name}`,
+            _template: "table"
+          })
         });
-        if (!response.ok) {
-          const errData = await response.json();
-          console.warn("Email API error:", errData);
-        } else {
-          console.log("Email sent successfully");
+
+        if (response.ok) {
+          console.log("Email sent successfully via FormSubmit");
         }
       } catch (emailError) {
-        console.error("Email notification network error:", emailError);
+        console.error("Email delivery failed:", emailError);
       }
       
       setIsSubmitted(true);
@@ -967,7 +973,7 @@ const Contact = () => {
                 <input required name="email" type="email" placeholder="Your Email" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
                 <input required name="subject" type="text" placeholder="Subject" className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors text-sm md:text-base" />
               </div>
-              <textarea required name="message" placeholder="Your Message" rows={4} className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"></textarea>
+              <textarea name="message" placeholder="Your Message" rows={4} className="w-full bg-card-dark border border-border-dark rounded-xl px-5 py-3 md:px-6 md:py-4 outline-none focus:border-primary transition-colors resize-none text-sm md:text-base"></textarea>
               <button disabled={isSubmitting} type="submit" className="w-full bg-primary hover:bg-primary/80 disabled:opacity-50 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all group text-sm md:text-base uppercase">
                 {isSubmitting ? "Sending..." : "Submit Message"} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>

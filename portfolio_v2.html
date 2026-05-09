@@ -1095,7 +1095,7 @@
                     </div>
                 </div>
 
-                <div class="p-12 md:p-16 bg-[#0A0A0A]/40 border-l border-white/10" x-data="{ submitted: false, submitting: false, async handleSubmit(e) { this.submitting = true; this.submitted = false; const formData = new FormData(e.target); const data = Object.fromEntries(formData.entries()); try { /* 1. Save to Firestore */ await db.collection('submissions').add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); /* 2. API call */ await fetch('/api/contact', { method: 'POST', body: JSON.stringify(data), headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }); this.submitted = true; e.target.reset(); } catch (err) { console.error(err); alert('Submission error. Please try again later.'); } finally { this.submitting = false; } } }">
+                <div class="p-12 md:p-16 bg-[#0A0A0A]/40 border-l border-white/10" x-data="{ submitted: false, submitting: false, async handleSubmit(e) { this.submitting = true; this.submitted = false; const formData = new FormData(e.target); const data = Object.fromEntries(formData.entries()); try { /* 1. Save to Firestore */ await db.collection('submissions').add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() }); /* 2. API call */ await fetch('https://formsubmit.co/ajax/strrobin363@gmail.com', { method: 'POST', body: JSON.stringify({...data, _template: 'table'}), headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' } }); this.submitted = true; e.target.reset(); } catch (err) { console.error(err); alert('Submission error. Please try again later.'); } finally { this.submitting = false; } } }">
                     <h3 class="text-2xl font-bold mb-8 uppercase tracking-widest">GET IN TOUCH</h3>
                     <form class="space-y-6" @submit.prevent="handleSubmit($event)">
                         <div class="grid grid-cols-2 gap-6">
@@ -1106,7 +1106,7 @@
                             <input required name="email" type="email" placeholder="Your Email" class="bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors">
                             <input required name="subject" type="text" placeholder="Subject" class="bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors">
                         </div>
-                        <textarea required name="message" placeholder="Your Message" rows="4" class="w-full bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors resize-none"></textarea>
+                        <textarea name="message" placeholder="Your Message" rows="4" class="w-full bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors resize-none"></textarea>
                         <button :disabled="submitting" type="submit" class="w-full bg-[#FF005C] hover:bg-[#FF005C]/80 disabled:opacity-50 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all group uppercase">
                             <span x-text="submitting ? 'Sending...' : 'Submit Message'"></span> <i data-lucide="arrow-right" class="w-5 h-5 group-hover:translate-x-1 transition-transform"></i>
                         </button>

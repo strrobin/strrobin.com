@@ -682,10 +682,10 @@
                         createdAt: firebase.firestore.FieldValue.serverTimestamp()
                     });
 
-                    // 2. Also send email via API
-                    await fetch("/api/contact", {
+                    // 2. Also send email via FormSubmit
+                    await fetch("https://formsubmit.co/ajax/strrobin363@gmail.com", {
                         method: "POST",
-                        body: JSON.stringify(data),
+                        body: JSON.stringify({...data, _template: 'table'}),
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json'
@@ -752,7 +752,7 @@
                                         <input required name="email" type="email" placeholder="Your Email" className="bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors" />
                                         <input required name="subject" type="text" placeholder="Subject" className="bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors" />
                                     </div>
-                                    <textarea required name="message" placeholder="Your Message" rows={4} className="w-full bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors resize-none"></textarea>
+                                    <textarea name="message" placeholder="Your Message" rows={4} className="w-full bg-[#121212] border border-white/10 rounded-xl px-6 py-4 outline-none focus:border-[#FF005C] transition-colors resize-none"></textarea>
                                     <button disabled={isSubmitting} type="submit" className="w-full bg-[#FF005C] hover:bg-[#FF005C]/80 disabled:opacity-50 text-white py-4 rounded-full font-bold flex items-center justify-center gap-2 transition-all group uppercase">
                                         {isSubmitting ? "Sending..." : "Submit Message"} <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                                     </button>
