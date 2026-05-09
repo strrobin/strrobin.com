@@ -152,7 +152,7 @@
     <!-- Navbar -->
     <nav :class="scrolled ? 'bg-[#0A0A0A]/90 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'" class="fixed top-0 left-0 w-full z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <div class="flex items-center gap-2">
+            <a href="#" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
                 <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
                     <img 
                         src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
@@ -162,7 +162,7 @@
                     />
                 </div>
                 <span class="text-2xl font-bold tracking-tighter text-white">STR ROBIN</span>
-            </div>
+            </a>
 
             <div class="hidden md:flex items-center gap-8">
                 <a href="#" class="text-sm font-medium hover:text-[#FF005C] text-gray-300">Home</a>
@@ -221,7 +221,7 @@
             >
                 <div class="p-10">
                     <div class="flex justify-between items-center mb-12">
-                        <div class="flex items-center gap-2">
+                        <a href="#" @click="sidebar = false" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
                             <div class="w-10 h-10 rounded-full overflow-hidden border border-white/10">
                                 <img 
                                     src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
@@ -231,7 +231,7 @@
                                 />
                             </div>
                             <span class="text-2xl font-bold tracking-tighter text-white font-display">STR ROBIN</span>
-                        </div>
+                        </a>
                         <button @click="sidebar = false" class="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:bg-[#FF005C] transition-all text-gray-400 hover:text-white">
                             <i data-lucide="x" class="w-5 h-5"></i>
                         </button>
@@ -324,7 +324,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
+    <section id="home" class="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
         <!-- Premium Background Elements -->
         <div class="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse"></div>
         <div class="absolute -bottom-20 -left-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]"></div>
@@ -1123,10 +1123,10 @@
     <!-- Footer -->
     <footer class="pt-16 pb-8 md:pt-20 md:pb-10 bg-[#0A0A0A] border-t border-white/10">
         <div class="max-w-7xl mx-auto px-6 text-center">
-            <div class="flex items-center justify-center gap-2 mb-8">
+            <a href="#" class="flex items-center justify-center gap-2 mb-8 hover:opacity-80 transition-opacity">
                 <div class="w-10 h-10 bg-[#FF005C] rounded-full flex items-center justify-center font-bold text-xl">S</div>
                 <span class="text-2xl font-bold tracking-tighter">STR ROBIN</span>
-            </div>
+            </a>
             <p class="text-gray-500 text-sm mb-8 max-w-md mx-auto">
                 Professional WordPress Developer specializing in custom theme design, e-commerce, and speed optimization.
             </p>

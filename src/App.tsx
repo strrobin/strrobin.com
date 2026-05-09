@@ -40,7 +40,7 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => {
   return (
     <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-bg-dark/80 backdrop-blur-md py-4 border-b border-border-dark' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+        <a href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
           <div className="w-10 h-10 rounded-full overflow-hidden border border-border-dark">
             <img 
               src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
@@ -50,7 +50,7 @@ const Navbar = ({ onMenuClick }: { onMenuClick: () => void }) => {
             />
           </div>
           <span className="text-2xl font-display font-bold tracking-tighter">STR ROBIN</span>
-        </div>
+        </a>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
@@ -122,7 +122,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
+    <section id="home" className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
       <div className="absolute top-1/4 -right-20 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] animate-pulse"></div>
       <div className="absolute -bottom-20 -left-20 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[100px]"></div>
       
@@ -1039,7 +1039,7 @@ const Footer = () => {
     <footer className="pt-20 pb-10 bg-bg-dark border-t border-border-dark">
       <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-20">
           <div className="col-span-1">
-            <div className="flex items-center gap-2 mb-6">
+            <a href="#" className="flex items-center gap-2 mb-6 hover:opacity-80 transition-opacity">
               <div className="w-10 h-10 rounded-full overflow-hidden border border-border-dark">
                 <img 
                   src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
@@ -1049,7 +1049,7 @@ const Footer = () => {
                 />
               </div>
               <span className="text-2xl font-display font-bold tracking-tighter">STR ROBIN</span>
-            </div>
+            </a>
           <p className="text-gray-500 text-sm mb-8 leading-relaxed">
             Professional WordPress Developer specializing in custom theme design, e-commerce, and speed optimization.
           </p>
@@ -1158,7 +1158,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
           >
             <div className="p-10">
               <div className="flex justify-between items-center mb-12">
-                <div className="flex items-center gap-2">
+                <a href="#" onClick={onClose} className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                   <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10">
                     <img 
                       src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
@@ -1168,7 +1168,7 @@ const Sidebar = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) 
                     />
                   </div>
                   <span className="text-2xl font-display font-bold tracking-tighter text-white">STR ROBIN</span>
-                </div>
+                </a>
                 <button 
                   onClick={onClose}
                   className="w-10 h-10 border border-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-all text-gray-400 hover:text-white"

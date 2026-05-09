@@ -149,7 +149,7 @@
             return (
                 <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-[#0A0A0A]/80 backdrop-blur-md py-4 border-b border-white/10' : 'bg-transparent py-6'}`}>
                     <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
-                        <div className="flex items-center gap-2">
+                        <a href="#" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
                             <div className="w-10 h-10 rounded-full overflow-hidden border border-white/10">
                                 <img 
                                     src="https://dev-drain-cleaning-one.pantheonsite.io/wp-content/uploads/2026/05/strrobin2.jpg.jpeg" 
@@ -159,7 +159,7 @@
                                 />
                             </div>
                             <span className="text-2xl font-display font-bold tracking-tighter">Reeni</span>
-                        </div>
+                        </a>
 
                         <div className="hidden md:flex items-center gap-8">
                             {navLinks.map((link) => (
@@ -208,7 +208,7 @@
 
         const Hero = () => {
             return (
-                <section className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
+                <section id="home" className="relative pt-24 pb-12 md:pt-32 md:pb-20 overflow-hidden">
                     <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                         <div>
                             <span className="text-[#FF005C] font-medium tracking-widest uppercase text-sm mb-4 block">I AM</span>
@@ -814,10 +814,10 @@
                 <footer className="pt-16 pb-8 md:pt-20 md:pb-10 bg-[#0A0A0A] border-t border-white/10">
                     <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-12 mb-20">
                         <div className="col-span-1">
-                            <div className="flex items-center gap-2 mb-6">
+                            <a href="#" className="flex items-center gap-2 mb-6 hover:opacity-80 transition-opacity">
                                 <div className="w-10 h-10 bg-[#FF005C] rounded-full flex items-center justify-center font-bold text-xl">R</div>
                                 <span className="text-2xl font-display font-bold tracking-tighter">Reeni</span>
-                            </div>
+                            </a>
                             <p className="text-gray-500 text-sm mb-8 leading-relaxed">
                                 The personal portfolio category includes websites or physical displays
                             </p>
