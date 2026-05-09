@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Menu, X, Github, Linkedin, Twitter, Instagram, Facebook, MessageCircle, Play,
@@ -13,6 +13,8 @@ import {
   Figma, Database, Layers, Monitor, ShoppingBag, Wand2, Clock, Smartphone, Plane,
   CheckCircle2, Users, Zap, ShieldCheck
 } from 'lucide-react';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { db, auth } from './lib/firebase';
 
 // --- Components ---
 
@@ -809,38 +811,107 @@ const Tools = () => {
   );
 };
 
+enum OperationType {
+  CREATE = 'create',
+  UPDATE = 'update',
+  DELETE = 'delete',
+  LIST = 'list',
+  GET = 'get',
+  WRITE = 'write',
+}
+
+interface FirestoreErrorInfo {
+  error: string;
+  operationType: OperationType;
+  path: string | null;
+  authInfo: {
+    userId?: string | null;
+    email?: string | null;
+    emailVerified?: boolean | null;
+    isAnonymous?: boolean | null;
+    tenantId?: string | null;
+    providerInfo?: {
+      providerId?: string | null;
+      email?: string | null;
+    }[];
+  }
+}
+
+function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errInfo: FirestoreErrorInfo = {
+    error: error instanceof Error ? error.message : String(error),
+    authInfo: {
+      userId: auth.currentUser?.uid,
+      email: auth.currentUser?.email,
+      emailVerified: auth.currentUser?.emailVerified,
+      isAnonymous: auth.currentUser?.isAnonymous,
+      tenantId: auth.currentUser?.tenantId,
+      providerInfo: auth.currentUser?.providerData?.map(provider => ({
+        providerId: provider.providerId,
+        email: provider.email,
+      })) || []
+    },
+    operationType,
+    path
+  }
+  console.error('Firestore Error: ', JSON.stringify(errInfo));
+  throw new Error(JSON.stringify(errInfo));
+}
+
 const Contact = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setIsSubmitted(false);
     
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
+    const submissionData = Object.fromEntries(formData.entries());
     
+    console.log("Submitting form data:", submissionData);
+
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        body: JSON.stringify(Object.fromEntries(formData)),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        }
-      });
-      
-      if (response.ok) {
-        setIsSubmitted(true);
-        form.reset();
-      } else {
-        const errorData = await response.json();
-        alert("ভুল হয়েছে: " + (errorData.error || "ফর্মটি সাবমিট করা যাচ্ছে না।"));
+      // 1. Save to Firestore
+      const path = 'submissions';
+      try {
+        await addDoc(collection(db, path), {
+          ...submissionData,
+          createdAt: serverTimestamp()
+        });
+        console.log("Saved to Firestore successfully");
+      } catch (error) {
+        console.error("Firestore save error:", error);
+        handleFirestoreError(error, OperationType.WRITE, path);
       }
+
+      // 2. Also send email via Express/Resend
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          body: JSON.stringify(submissionData),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          const errData = await response.json();
+          console.warn("Email API error:", errData);
+        } else {
+          console.log("Email sent successfully");
+        }
+      } catch (emailError) {
+        console.error("Email notification network error:", emailError);
+      }
+      
+      setIsSubmitted(true);
+      form.reset();
     } catch (error) {
-      console.error("Submission error:", error);
-      alert("নেটওয়ার্ক সমস্যা! আপনার ইন্টারনেট কানেকশন চেক করুন।");
+      console.error("Overall submission failure:", error);
+      alert("Sorry, there was an error submitting your message. Please check your internet connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -907,7 +978,7 @@ const Contact = () => {
                   animate={{ opacity: 1, y: 0 }}
                   className="p-4 bg-green-500/10 border border-green-500/40 rounded-xl text-green-400 text-center font-bold shadow-lg"
                 >
-                  কন্টাক্ট ফর্ম সফলভাবে সাবমিট হয়েছে! আপনার ইমেইল চেক করে কনফার্ম করুন।
+                  Message sent successfully! I'll get back to you soon.
                 </motion.div>
               )}
             </form>

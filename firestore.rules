@@ -1,0 +1,41 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Submission validation
+    function isValidSubmission(data) {
+      return data.keys().hasAll(['name', 'email', 'message', 'createdAt']) &&
+             data.keys().size() >= 4 && data.keys().size() <= 6 &&
+             data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.email is string && data.email.size() > 0 && data.email.size() <= 100 &&
+             data.message is string && data.message.size() > 0 && data.message.size() <= 1000 &&
+             data.createdAt == request.time &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() <= 50)) &&
+             (!('subject' in data) || (data.subject is string && data.subject.size() <= 200));
+    }
+
+    match /submissions/{submissionId} {
+      allow create: if isValidId(submissionId) && isValidSubmission(incoming());
+      // No one can read submissions except authenticated admins (if implemented)
+      // For now, only creation is allowed for the public
+      allow read, update, delete: if false;
+    }
+  }
+}

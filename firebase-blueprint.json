@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "Submission": {
+      "title": "Submission",
+      "description": "Form submission from users",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "User's name"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User's email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "User's phone number"
+        },
+        "subject": {
+          "type": "string",
+          "description": "Subject of the message"
+        },
+        "message": {
+          "type": "string",
+          "description": "The actual message content"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp of submission"
+        }
+      },
+      "required": ["name", "email", "message", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/submissions/{submissionId}": {
+      "schema": "Submission",
+      "description": "Collection of contact form submissions"
+    }
+  }
+}
